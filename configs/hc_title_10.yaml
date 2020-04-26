@@ -1,0 +1,11 @@
+vocab_file: 'vocab_title.txt'
+s2v_file: 's2v_mymodel_title.npy'
+lm_save_dir: 'lm/outputs/title_forward'
+lm_rev_save_dir: 'lm/outputs/title_backward'
+idf_file: 'cos/outputs/title.idf'
+mode: 'extractive'
+steps_factor: 0.1
+restarts_factor: 0.035
+metrics: ['lm', 'cos']
+weights: [1, 12]
+summary_length: 10

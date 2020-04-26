@@ -1,0 +1,15 @@
+batch_size: 256
+embedding_size: 1024
+epochs: 50
+gradient_clipping: 15
+input_keep_prob: 1.0
+learning_rate: 0.1
+max_length: 35
+momentum: 0.9
+num_layers: 2
+optimizer: sgd
+output_keep_prob: 0.5
+reverse: true
+rnn_size: 1024
+sampled_softmax: 5000
+weight_decay: 1.0e-05

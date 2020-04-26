@@ -1,0 +1,11 @@
+vocab_file: 'vocab_article.txt'
+s2v_file: 's2v_mymodel_article.npy'
+lm_save_dir: 'lm/outputs/article_forward'
+lm_rev_save_dir: 'lm/outputs/article_backward'
+idf_file: 'cos/outputs/article.idf'
+mode: 'extractive'
+steps_factor: 0.1
+restarts_factor: 0.035
+metrics: ['lm', 'cos']
+weights: [1, 12]
+summary_length: 8
