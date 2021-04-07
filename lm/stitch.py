@@ -1,8 +1,7 @@
 import os
 import tensorflow as tf
 from tensorflow.python.training.checkpoint_utils import init_from_checkpoint
-from utils import bos_idx, pad_idx, eos_idx
-from lm.language_model import get_model, get_config
+from lm.language_model import get_model, get_config, bos_idx, pad_idx, eos_idx
 
 
 def get_lm_metric_func(lm_params):

@@ -13,10 +13,20 @@ from tensorflow.python.ops.array_ops import sequence_mask
 import numpy as np
 import yaml
 
-from utils import get_vocabs, get_embeddings, unk_idx, pad_idx, bos_idx, eos_idx, bad_words
-
 logging.getLogger().setLevel(logging.INFO)
 logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
+
+
+pad_token = 'PAD'
+unk_token = 'UNK'
+bos_token = 'BOS'
+eos_token = 'EOS'
+pad_idx = 0
+unk_idx = 1
+bos_idx = 2
+eos_idx = 3
+
+bad_words = {'"', "'", "''", "!", "=", "-", "--", ",", "?", ".", "``", "`", "-rrb-", "-llb-", "\\/"}
 
 
 def main():
@@ -73,6 +83,19 @@ def main():
         valid(args, config, word2idx, model_inputs, model_outputs, sess)
 
 
+def get_vocabs(vocab_file):
+    word2idx = {pad_token: 0, unk_token: 1, bos_token: 2, eos_token: 3}
+    for line in open(vocab_file):
+        word = line.strip()
+        word2idx[word] = len(word2idx)
+    idx2word = {v: k for k, v in word2idx.items()}
+    assert word2idx[pad_token] == pad_idx
+    assert word2idx[unk_token] == unk_idx
+    assert word2idx[bos_token] == bos_idx
+    assert word2idx[eos_token] == eos_idx
+    return word2idx, idx2word
+
+
 def get_config(save_dir, file_name='config.yaml'):
     config_file = os.path.join(save_dir, file_name)
     return yaml.load(open(config_file))
@@ -80,13 +103,9 @@ def get_config(save_dir, file_name='config.yaml'):
 
 def prepare(args, config):
     word2idx, idx2word = get_vocabs(args.vocab_file)
-    try:
-        embeddings = get_embeddings(word2idx, args.w2v_file)
-    except FileNotFoundError:
-        logging.info('embedding file not found. Train embeddings from scratch instead')
-        embeddings = None
+
     with tf.variable_scope('LanguageModel'):
-        model_inputs, model_outputs = get_model(config, embeddings, len(word2idx))
+        model_inputs, model_outputs = get_model(config, embeddings=None, num_words=len(word2idx))
 
     sess_config = tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=True))
     sess = tf.Session(config=sess_config)

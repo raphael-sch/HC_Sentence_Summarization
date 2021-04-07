@@ -3,9 +3,8 @@ import logging
 
 
 def main():
-    input_file = 'train.txt'
-    output_file = 'outputs/article.idf'
-
+    input_file = '../data/summary/sumdata/train/train.title.txt'
+    output_file = 'outputs/title.idf'
 
     document_freq = dict()
     N = 0

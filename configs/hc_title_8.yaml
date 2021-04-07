@@ -1,5 +1,5 @@
-vocab_file: 'vocab_title.txt'
-s2v_file: 's2v_mymodel_title.npy'
+vocab_file: 'lm/vocabs/title.vocab'
+s2v_file: 'data/sent2vec/s2v_title.npy'
 lm_save_dir: 'lm/outputs/title_forward'
 lm_rev_save_dir: 'lm/outputs/title_backward'
 idf_file: 'cos/outputs/title.idf'

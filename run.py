@@ -13,9 +13,10 @@ import numpy as np
 import tensorflow as tf
 
 from lm.stitch import init_lm_checkpoints
+from lm.language_model import get_vocabs, bad_words, unk_idx
 from cos.tfidf import get_idf_vector
 from model import get_model
-from utils import get_vocabs, get_embeddings, bad_words, unk_idx
+from utils import get_embeddings
 from neighbor_function import get_extractive_initial_states
 
 logging.getLogger().setLevel(logging.INFO)
@@ -89,18 +90,22 @@ def run(args, config):
         max_score = scores[max_idx]
         all_max_scores.append(max_score)
         max_state = states[max_idx]
+        summary = ' '.join([idx2word[idx] for idx in max_state])
         logging.info('max_score: {}'.format(max_score))
         logging.info('max_state: {}'.format(max_state))
-        logging.info('summary: {}'.format(' '.join([idx2word[idx] for idx in max_state])))
+        logging.info('summary: {}'.format(summary))
         logging.info('run_time: {}'.format(int(time.time()-line_time_start)))
 
         outputs = dict(states=states,
                        scores=scores,
                        sentence=sentence,
+                       summary=summary,
                        line_id=line_id,
                        time=time.time()-line_time_start)
         with gzip.open(os.path.join(line_output_dir, 'outputs.pickle.gzip'), 'wb') as f:
             pickle.dump(outputs, f)
+        with open(os.path.join(line_output_dir, 'line.txt'), 'w') as f:
+            f.write(summary + '\n')
     logging.info('')
     logging.info('avg max score: {}'.format(np.mean(all_max_scores)))
     logging.info('end: {}'.format(str(time.time())))
@@ -110,7 +115,7 @@ def run(args, config):
 def build_graph(config):
 
     word2idx, idx2word = get_vocabs(config['vocab_file'])
-    embeddings = get_embeddings(word2idx, config['s2v_file'])
+    embeddings = get_embeddings(config['s2v_file'])
 
     weights = config.get('weights', [1 for _ in config['metrics']])
     assert len(config['metrics']) == len(weights)
@@ -183,7 +188,7 @@ def get_batches(sentence, line_id, batch_size, args, config, word2idx):
 
     if config['mode'] == 'extractive':
         num_exhaustive = int(factorial(sentence_length) / factorial(summary_length) / factorial(max(1, sentence_length - summary_length)))
-        exhaustive = num_evaluations > num_exhaustive and config.get('allow_exhaustive', False)
+        exhaustive = num_evaluations >= num_exhaustive and config.get('allow_exhaustive', True)
         if exhaustive:
             logging.info('roughly number of exhaustive evaluations: {}'.format(num_exhaustive))
         for initial_state in get_extractive_initial_states(num_restarts,

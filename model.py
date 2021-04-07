@@ -65,8 +65,8 @@ def get_model(metrics, mode='extractive'):
     def run_sampler():
         next_state = get_extractive_next_state_func(batch_size, sentence_length, summary_length, sentence)
 
-        metropolis_sampler = get_metropolis_sampler(get_score, num_steps)
-        _states, _scores = metropolis_sampler(initial_state_tuple, next_state)
+        hill_climber = get_hill_climber(get_score, num_steps)
+        _states, _scores = hill_climber(initial_state_tuple, next_state)
         return _states, _scores
 
     if mode == 'exhaustive':
@@ -82,8 +82,8 @@ def get_model(metrics, mode='extractive'):
     return inputs, outputs
 
 
-def get_metropolis_sampler(get_score, num_steps):
-    def metropolis_sampler(initial_state, next_state):
+def get_hill_climber(get_score, num_steps):
+    def hill_climber(initial_state, next_state):
 
         def body(step, state_old, score_old, states_ta, scores_ta):
             state_new = next_state(state_old)
@@ -133,7 +133,7 @@ def get_metropolis_sampler(get_score, num_steps):
         scores = res[4].stack()
 
         return states, scores
-    return metropolis_sampler
+    return hill_climber
 
 
 def get_score_func(metric_funcs):

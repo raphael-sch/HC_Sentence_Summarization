@@ -1,3 +1,0 @@
-tensorflow-gpu==1.13.1
-gensim==3.5.0
-pyyaml
