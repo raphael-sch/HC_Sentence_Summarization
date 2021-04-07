@@ -1,0 +1,1 @@
+best validation perplexity: 90.48917346180032
