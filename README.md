@@ -18,7 +18,10 @@ Use Model
 =========
 
 ### Pretrained Weights
-Pretrained weights for the language model and the sent2vec embeddings should get cloned automatically with this git repository, otherwise read about Git Large File Storage.
+Download the pretrained weights from [here](https://github.com/raphael-sch/HC_Sentence_Summarization/releases/tag/v1.0)  
+Move *model.ckpt-282245.data-00000-of-00001* to *lm/outputs/title_forward/ckpt/*  
+Move *model.ckpt-311955.data-00000-of-00001* to *lm/outputs/title_backward/ckpt/*  
+Move *s2v_title.npy* to *data/sent2vec/*
 
 ### Run Inference
 Set correct paths in `configs/hc_title_8.yaml`
