@@ -56,7 +56,7 @@ python lm/language_model.py --input_file path_to_data/train.title.txt --valid_fi
 ```
 same for backward language model with config `lm/configs/title_backward.yaml`
 
-## Sent2vec
+### Sent2vec
 install sent2vec from https://github.com/epfml/sent2vec
 
 ```
