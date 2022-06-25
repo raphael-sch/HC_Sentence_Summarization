@@ -20,9 +20,9 @@ Use Model
 
 ### Pretrained Weights
 Download the pretrained weights from [here](https://github.com/raphael-sch/HC_Sentence_Summarization/releases/tag/v1.0)  
-Move *model.ckpt-282245.data-00000-of-00001* to *lm/outputs/title_forward/ckpt/*  
-Move *model.ckpt-311955.data-00000-of-00001* to *lm/outputs/title_backward/ckpt/*  
-Move *s2v_title.npy* to *data/sent2vec/*
+Move `model.ckpt-282245.data-00000-of-00001` to `lm/outputs/title_forward/ckpt/`   
+Move `model.ckpt-311955.data-00000-of-00001` to `lm/outputs/title_backward/ckpt/`  
+Move `s2v_title.npy` to `data/sent2vec/`
 
 ### Run Inference
 Set correct paths in `configs/hc_title_8.yaml`
@@ -82,5 +82,10 @@ Please cite the following paper if you use this code:
     author = "Schumann, Raphael and Mou, Lili and Lu, Yao and Vechtomova, Olga and Markert, Katja",
     booktitle = "Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics",
     year = "2020",
-    pages = "5032--5042",}
+    month = jul,
+    address = "Online",
+    publisher = "Association for Computational Linguistics",
+    doi = "10.18653/v1/2020.acl-main.452",
+    pages = "5032--5042"
+}
 ```
