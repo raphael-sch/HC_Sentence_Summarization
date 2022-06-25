@@ -1,5 +1,6 @@
 Code for ACL 2020 paper: [Schumann et al. "Discrete Optimization for Unsupervised Sentence Summarization with Word-Level Extraction"](https://www.aclweb.org/anthology/2020.acl-main.452.pdf)
 
+Besides the original Tensorflow implementation in this repository, there is also a reimplementation of the method in PyTorch here: https://github.com/complementizer/rl-sentence-compression
 
 Prepare
 =======
